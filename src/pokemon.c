@@ -1041,9 +1041,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 personality = Random32();
     u32 value;
     u16 checksum;
-    u8 i;
-    u8 availableIVs[NUM_STATS];
-    u8 selectedIvs[NUM_STATS];
+    
     bool32 isShiny;
 
     ZeroBoxMonData(boxMon);
@@ -1132,80 +1130,96 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 teraType = (boxMon->personality & 0x1) == 0 ? GetSpeciesType(species, 0) : GetSpeciesType(species, 1);
     SetBoxMonData(boxMon, MON_DATA_TERA_TYPE, &teraType);
 
-    if (fixedIV < USE_RANDOM_IVS)
-    {
-        SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
-        SetBoxMonData(boxMon, MON_DATA_ATK_IV, &fixedIV);
-        SetBoxMonData(boxMon, MON_DATA_DEF_IV, &fixedIV);
-        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &fixedIV);
-        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &fixedIV);
-        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &fixedIV);
-    }
-    else
-    {
-        u32 iv;
-        u32 ivRandom = Random32();
-        value = (u16)ivRandom;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    #if defined(P_PERFECT_IVS) && P_PERFECT_IVS == 1
+        u32 perfectIVs = 31;
+        SetBoxMonData(boxMon, MON_DATA_HP_IV, &perfectIVs);
+        SetBoxMonData(boxMon, MON_DATA_ATK_IV, &perfectIVs);
+        SetBoxMonData(boxMon, MON_DATA_DEF_IV, &perfectIVs);
+        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &perfectIVs);
+        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &perfectIVs);
+        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &perfectIVs);
 
-        iv = value & MAX_IV_MASK;
-        SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
-        iv = (value & (MAX_IV_MASK << 5)) >> 5;
-        SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
-        iv = (value & (MAX_IV_MASK << 10)) >> 10;
-        SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
+    #else 
+        u8 i;
+        u8 availableIVs[NUM_STATS];
+        u8 selectedIvs[NUM_STATS];
 
-        value = (u16)(ivRandom >> 16);
-
-        iv = value & MAX_IV_MASK;
-        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
-        iv = (value & (MAX_IV_MASK << 5)) >> 5;
-        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
-        iv = (value & (MAX_IV_MASK << 10)) >> 10;
-        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
-
-        if (gSpeciesInfo[species].perfectIVCount != 0)
+        if (fixedIV < USE_RANDOM_IVS)
         {
-            iv = MAX_PER_STAT_IVS;
-            // Initialize a list of IV indices.
-            for (i = 0; i < NUM_STATS; i++)
-            {
-                availableIVs[i] = i;
-            }
+            SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
+            SetBoxMonData(boxMon, MON_DATA_ATK_IV, &fixedIV);
+            SetBoxMonData(boxMon, MON_DATA_DEF_IV, &fixedIV);
+            SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &fixedIV);
+            SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &fixedIV);
+            SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &fixedIV);
+        }
+        else
+        {
+            u32 iv;
+            u32 ivRandom = Random32();
+            value = (u16)ivRandom;
 
-            // Select the IVs that will be perfected.
-            for (i = 0; i < NUM_STATS && i < gSpeciesInfo[species].perfectIVCount; i++)
+            iv = value & MAX_IV_MASK;
+            SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
+            iv = (value & (MAX_IV_MASK << 5)) >> 5;
+            SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
+            iv = (value & (MAX_IV_MASK << 10)) >> 10;
+            SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
+
+            value = (u16)(ivRandom >> 16);
+
+            iv = value & MAX_IV_MASK;
+            SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
+            iv = (value & (MAX_IV_MASK << 5)) >> 5;
+            SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
+            iv = (value & (MAX_IV_MASK << 10)) >> 10;
+            SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
+
+            if (gSpeciesInfo[species].perfectIVCount != 0)
             {
-                u8 index = Random() % (NUM_STATS - i);
-                selectedIvs[i] = availableIVs[index];
-                RemoveIVIndexFromList(availableIVs, index);
-            }
-            for (i = 0; i < NUM_STATS && i < gSpeciesInfo[species].perfectIVCount; i++)
-            {
-                switch (selectedIvs[i])
+                iv = MAX_PER_STAT_IVS;
+                // Initialize a list of IV indices.
+                for (i = 0; i < NUM_STATS; i++)
                 {
-                case STAT_HP:
-                    SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
-                    break;
-                case STAT_ATK:
-                    SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
-                    break;
-                case STAT_DEF:
-                    SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
-                    break;
-                case STAT_SPEED:
-                    SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
-                    break;
-                case STAT_SPATK:
-                    SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
-                    break;
-                case STAT_SPDEF:
-                    SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
-                    break;
+                    availableIVs[i] = i;
+                }
+
+                // Select the IVs that will be perfected.
+                for (i = 0; i < NUM_STATS && i < gSpeciesInfo[species].perfectIVCount; i++)
+                {
+                    u8 index = Random() % (NUM_STATS - i);
+                    selectedIvs[i] = availableIVs[index];
+                    RemoveIVIndexFromList(availableIVs, index);
+                }
+                for (i = 0; i < NUM_STATS && i < gSpeciesInfo[species].perfectIVCount; i++)
+                {
+                    switch (selectedIvs[i])
+                    {
+                    case STAT_HP:
+                        SetBoxMonData(boxMon, MON_DATA_HP_IV, &iv);
+                        break;
+                    case STAT_ATK:
+                        SetBoxMonData(boxMon, MON_DATA_ATK_IV, &iv);
+                        break;
+                    case STAT_DEF:
+                        SetBoxMonData(boxMon, MON_DATA_DEF_IV, &iv);
+                        break;
+                    case STAT_SPEED:
+                        SetBoxMonData(boxMon, MON_DATA_SPEED_IV, &iv);
+                        break;
+                    case STAT_SPATK:
+                        SetBoxMonData(boxMon, MON_DATA_SPATK_IV, &iv);
+                        break;
+                    case STAT_SPDEF:
+                        SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
+                        break;
+                    }
                 }
             }
         }
-    }
-
+    #endif
+//////////////////////////////////////////////////////////////////////////////////////
     if (GetSpeciesAbility(species, 1))
     {
         value = personality & 1;
