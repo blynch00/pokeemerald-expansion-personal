@@ -2426,4 +2426,16 @@ extern const u8 gText_Rename[]; // change nickname from summary screen
 // Switch Caught Mon into Party
 extern const u8 gText_CannotSendMonToBoxHM[];
 
+
+// Declaring constants for region names; used in starter region multichoice
+extern const u8 gText_Starter_Kanto[];
+extern const u8 gText_Starter_Johto[];
+extern const u8 gText_Starter_Hoenn[];
+extern const u8 gText_Starter_Sinnoh[];
+extern const u8 gText_Starter_Unova[];
+extern const u8 gText_Starter_Kalos[];
+extern const u8 gText_Starter_Alola[];
+extern const u8 gText_Starter_Galar[];
+extern const u8 gText_Starter_Paldea[];
+
 #endif // GUARD_STRINGS_H

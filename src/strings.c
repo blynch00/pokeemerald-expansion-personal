@@ -1300,3 +1300,16 @@ const u8 gText_PM[] = _("PM");
 const u8 gText_Relearn[] = _("{START_BUTTON} RELEARN"); // future note: don't decap this, because it mimics the summary screen BG graphics which will not get decapped
 const u8 gText_Rename[] = _("RENAME");
 const u8 gText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the box,\nbecause it knows a HM move.{PAUSE_UNTIL_PRESS}");
+
+
+// Text for Multichoice Region Starter
+const u8 gText_Starter_Kanto[] = _("Kanto");
+const u8 gText_Starter_Johto[] = _("Johto");
+const u8 gText_Starter_Hoenn[] = _("Hoenn");
+const u8 gText_Starter_Sinnoh[] = _("Sinnoh");
+const u8 gText_Starter_Unova[] = _("Unova");
+const u8 gText_Starter_Kalos[] = _("Kalos");
+const u8 gText_Starter_Alola[] = _("Alola");
+const u8 gText_Starter_Galar[] = _("Galar");
+const u8 gText_Starter_Paldea[] = _("Paldea");
+
