@@ -6015,7 +6015,7 @@ static void Cmd_moveend(void)
 
                 // Not strictly a protect effect, but works the same way
                 if (gProtectStructs[gBattlerTarget].beakBlastCharge
-                 && CanBeBurned(gBattlerAttacker, gBattlerTarget, GetBattlerAbility(gBattlerAttacker))
+                 && CanBeBurned(gBattlerAttacker, gBattlerAttacker, GetBattlerAbility(gBattlerAttacker))
                  && !(gBattleStruct->moveResultFlags[gBattlerTarget] & MOVE_RESULT_NO_EFFECT))
                 {
                     gProtectStructs[gBattlerAttacker].touchedProtectLike = FALSE;
@@ -17849,7 +17849,7 @@ void BS_GetTotemBoost(void)
 void BS_ActivateItemEffects(void)
 {
     NATIVE_ARGS();
-    if (ItemBattleEffects(ITEMEFFECT_NORMAL, gBattlerTarget))
+    if (ItemBattleEffects(ITEMEFFECT_TRY_HEALING, gBattlerTarget))
         return;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
