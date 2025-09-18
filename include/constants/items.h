@@ -996,10 +996,15 @@
 
 // PokeVial Item
 #define ITEM_POKE_VIAL 829
+//Infinite Repel Item
+#define ITEM_INFINITE_REPEL 830
+
+// Infinite Candy item
+#define ITEM_INFINITE_CANDY 831
 // HOPO BERRY
 // LEGEND PLATE
 
-#define ITEMS_COUNT 830
+#define ITEMS_COUNT 832
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
