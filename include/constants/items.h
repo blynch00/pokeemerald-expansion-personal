@@ -1000,7 +1000,7 @@
 #define ITEM_INFINITE_REPEL 830
 
 // Infinite Candy item
-#define ITEM_INFINITE_CANDY 831
+#define ITEM_CANDY_JAR 831
 // HOPO BERRY
 // LEGEND PLATE
 
