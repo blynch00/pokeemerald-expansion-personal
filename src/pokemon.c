@@ -1144,10 +1144,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &perfectIVs);
 
     #else 
-        u8 i;
-        u8 availableIVs[NUM_STATS];
-        u8 selectedIvs[NUM_STATS];
-
         if (fixedIV < USE_RANDOM_IVS)
         {
             SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
@@ -1223,6 +1219,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
             }
         }
     }
+    #endif
 
     if (GetSpeciesAbility(species, 1))
     {
