@@ -1043,9 +1043,6 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 personality = Random32();
     u32 value;
     u16 checksum;
-    u8 i;
-    enum Stat availableIVs[NUM_STATS];
-    enum Stat selectedIvs[NUM_STATS];
     bool32 isShiny;
 
     ZeroBoxMonData(boxMon);
@@ -1144,6 +1141,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &perfectIVs);
 
     #else 
+        u8 i;
+        enum Stat availableIVs[NUM_STATS];
+        enum Stat selectedIvs[NUM_STATS];
         if (fixedIV < USE_RANDOM_IVS)
         {
             SetBoxMonData(boxMon, MON_DATA_HP_IV, &fixedIV);
