@@ -7657,6 +7657,7 @@ static const u16 sFlareonTeachableLearnset[] = {
     MOVE_SWORDS_DANCE,
     MOVE_TAKE_DOWN,
     MOVE_TAUNT,
+    MOVE_TAKE_DOWN,
     MOVE_TOXIC,
     MOVE_UNAVAILABLE,
 };

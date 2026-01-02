@@ -23,6 +23,7 @@
 #include "window.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
+#include "constants/starter_choose.h"
 
 #define STARTER_MON_COUNT   3
 
